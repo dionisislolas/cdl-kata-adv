@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -47,6 +46,8 @@ public class Order implements Serializable {
             orderLine.setOrderId(id);
             orderLine.setItem(item);
             orderLine.setSku(item.getSku());
+            orderLine.setQuantityOrdered(1);
+            orderLine.setOrderLinePrice(item.getPrice());
             orderLines.put(item.getSku(), orderLine);
         }
 
@@ -61,7 +62,13 @@ public class Order implements Serializable {
             return;
         }
 
-        orderLine.decrease();
+        if (orderLine.getQuantityOrdered() <= 1) {
+            orderLines.remove(item.getSku());
+        } else {
+            orderLine.decrease();
+        }
+
+        updateRunningTotal();
     }
 
     private void updateRunningTotal() {
