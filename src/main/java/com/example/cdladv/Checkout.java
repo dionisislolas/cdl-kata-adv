@@ -26,6 +26,22 @@ public class Checkout {
         return order;
     }
 
+    public Order removeItem(String sku, long orderId) {
+        Item item = itemRepository.findById(sku).orElseThrow(() -> new ItemNotFoundException(sku));
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new OrderNotFoundException(orderId));
+        order.removeItem(item);
+        return order;
+    }
+
+    public Order completeOrder(long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new OrderNotFoundException(orderId));
+        order.setStatus(Order.Status.COMPLETED);
+        order.setFinalPrice(order.getRunningTotal());
+
+        orderRepository.save(order);
+        return order;
+    }
+
     public long createNewOrder() {
         Order newOrder = new Order();
         newOrder.setStatus(Order.Status.IN_PROGRESS);

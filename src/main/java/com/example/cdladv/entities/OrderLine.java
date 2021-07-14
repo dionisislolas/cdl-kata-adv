@@ -35,6 +35,14 @@ public class OrderLine implements Serializable {
         orderLinePrice = calculatePrice();
     }
 
+    public void decrease() {
+        if (quantityOrdered <= 0) {
+            return;
+        }
+        quantityOrdered--;
+        orderLinePrice = calculatePrice();
+    }
+
     private BigDecimal calculatePrice() {
         SpecialOffer specialOffer = item.getSpecialOffer();
         if (quantityOrdered >= specialOffer.getQuantity()) {

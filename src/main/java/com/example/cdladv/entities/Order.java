@@ -54,6 +54,16 @@ public class Order implements Serializable {
         updateRunningTotal();
     }
 
+    public void removeItem(Item item) {
+        OrderLine orderLine = orderLines.get(item.getSku());
+
+        if (orderLine == null) {
+            return;
+        }
+
+        orderLine.decrease();
+    }
+
     private void updateRunningTotal() {
         runningTotal = orderLines.values().stream()
                 .map(OrderLine::getOrderLinePrice)
