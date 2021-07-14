@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = "sku")
 public class Item implements Serializable {
     private static final long serialVersionUID = -9028594448982817081L;
+
     @Id
     private String sku;
+
     private BigDecimal price;
 }

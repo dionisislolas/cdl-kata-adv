@@ -15,8 +15,11 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = "sku")
 public class SpecialOffer implements Serializable {
     private static final long serialVersionUID = 6699861293290280016L;
+
     @Id
     private String sku;
+
     private int quantity;
+
     private BigDecimal specialPrice;
 }
