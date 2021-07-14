@@ -30,4 +30,8 @@ public class Item implements Serializable {
         this.sku = sku;
         this.price = price;
     }
+
+    public void addSpecialOffer(int quantity, BigDecimal specialPrice) {
+        specialOffer = new SpecialOffer(sku, quantity, specialPrice);
+    }
 }

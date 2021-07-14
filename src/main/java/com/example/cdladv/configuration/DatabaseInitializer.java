@@ -1,7 +1,6 @@
 package com.example.cdladv.configuration;
 
 import com.example.cdladv.entities.Item;
-import com.example.cdladv.entities.SpecialOffer;
 import com.example.cdladv.repository.ItemRepository;
 import com.sun.tools.javac.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,11 @@ public class DatabaseInitializer {
 
         // item a
         Item a = new Item("A", BigDecimal.valueOf(0.50));
-        SpecialOffer aOffer = new SpecialOffer("A", 3, BigDecimal.valueOf(1.30));
-        a.setSpecialOffer(aOffer);
+        a.addSpecialOffer(3, BigDecimal.valueOf(1.30));
 
         // item b
         Item b = new Item("B", BigDecimal.valueOf(0.30));
-        SpecialOffer bOffer = new SpecialOffer("B", 2, BigDecimal.valueOf(0.45));
-        b.setSpecialOffer(bOffer);
+        b.addSpecialOffer(2, BigDecimal.valueOf(0.45));
 
         // item c
         Item c = new Item("C", BigDecimal.valueOf(0.20));
