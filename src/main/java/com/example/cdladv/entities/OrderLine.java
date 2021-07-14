@@ -44,12 +44,13 @@ public class OrderLine implements Serializable {
     }
 
     private BigDecimal calculatePrice() {
+        orderLinePrice = BigDecimal.ZERO;
         SpecialOffer specialOffer = item.getSpecialOffer();
         if (quantityOrdered >= specialOffer.getQuantity()) {
             int quotient = quantityOrdered / specialOffer.getQuantity();
             int remainder = quantityOrdered % specialOffer.getQuantity();
             orderLinePrice = orderLinePrice.add(
-                    BigDecimal.valueOf(specialOffer.getSpecialPrice().floatValue() * quotient)
+                    specialOffer.getSpecialPrice().multiply(BigDecimal.valueOf(quotient))
             );
             for (int i=0; i<remainder; i++) {
                 orderLinePrice = orderLinePrice.add(item.getPrice());

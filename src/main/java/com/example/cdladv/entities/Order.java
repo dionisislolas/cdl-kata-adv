@@ -46,8 +46,6 @@ public class Order implements Serializable {
             orderLine.setOrderId(id);
             orderLine.setItem(item);
             orderLine.setSku(item.getSku());
-            orderLine.setQuantityOrdered(1);
-            orderLine.setOrderLinePrice(item.getPrice());
             orderLines.put(item.getSku(), orderLine);
         }
 
