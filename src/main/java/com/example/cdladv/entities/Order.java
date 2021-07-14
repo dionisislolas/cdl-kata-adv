@@ -28,6 +28,16 @@ public class Order implements Serializable {
 
     private BigDecimal finalPrice;
 
+    public enum Status {
+        IN_PROGRESS, COMPLETED
+    }
+
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
+
+    @Transient
+    private BigDecimal runningTotal;
+
     public void addItem(Item item) {
 
         OrderLine orderLine = orderLines.get(item.getSku());
@@ -41,12 +51,14 @@ public class Order implements Serializable {
         }
 
         orderLine.increase();
+        updateRunningTotal();
     }
 
-    public enum Status {
-        IN_PROGRESS, COMPLETED
+    private void updateRunningTotal() {
+        runningTotal = orderLines.values().stream()
+                .map(OrderLine::getOrderLinePrice)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO)
+        ;
     }
-
-    @Enumerated(value = EnumType.STRING)
-    private Status status;
 }
