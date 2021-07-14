@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "orders")
@@ -21,9 +23,25 @@ public class Order implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "orderId")
-    private List<OrderLine> orderLineList;
+    @MapKey(name = "sku")
+    private Map<String, OrderLine> orderLines = new HashMap<>();
 
     private BigDecimal finalPrice;
+
+    public void addItem(Item item) {
+
+        OrderLine orderLine = orderLines.get(item.getSku());
+
+        if (orderLine == null) {
+            orderLine = new OrderLine();
+            orderLine.setOrderId(id);
+            orderLine.setItem(item);
+            orderLine.setSku(item.getSku());
+            orderLines.put(item.getSku(), orderLine);
+        }
+
+        orderLine.increase();
+    }
 
     public enum Status {
         IN_PROGRESS, COMPLETED
